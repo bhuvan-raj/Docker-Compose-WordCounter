@@ -1,8 +1,4 @@
-Absolutely, Bubu! Here’s a comprehensive `README.md` file for your **Word Counter Multi-Container Docker Project** that includes setup, commands, and brief explanations.
 
----
-
-```markdown
 # Word Counter Multi-Container Docker Project
 
 This project demonstrates a multi-container Docker setup involving a frontend, worker, Redis, PostgreSQL database, and a result frontend. The frontend accepts text input, the worker counts words asynchronously, and the result frontend displays the word counts.
