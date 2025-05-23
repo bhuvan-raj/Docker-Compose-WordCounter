@@ -4,7 +4,7 @@
 This project demonstrates a multi-container Docker setup involving a frontend, worker, Redis, PostgreSQL database, and a result frontend. The frontend accepts text input, the worker counts words asynchronously, and the result frontend displays the word counts.
 
 ---
-![Alt Text](blob/bc8c39caf8f8cc8d36f5fbd21f3aa492eecd2320/Screenshot%20From%202025-05-23%2023-22-55.png)
+![Alt Text](bc8c39caf8f8cc8d36f5fbd21f3aa492eecd2320/Screenshot%20From%202025-05-23%2023-22-55.png)
 
 ## Project Structure
 
