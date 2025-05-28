@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Redis service for message queue
+  redis:
+    image: redis:latest
+    container_name: redis
+    networks:
+      - app-net
+
+  # PostgreSQL database
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: wordcount
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-net
+
+  # Frontend service (input form)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "5000:5000"
+    networks:
+      - app-net
+    depends_on:
+      - redis
+
+  # Worker service (background processor)
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    container_name: worker
+    networks:
+      - app-net
+    command: python worker.py
+    tty: true
+    depends_on:
+      - redis
+      - db
+
+
+  # Result frontend service (display results)
+  result-frontend:
+    build:
+      context: ./result-frontend
+      dockerfile: Dockerfile
+    container_name: result-frontend
+    ports:
+      - "7000:5000"
+    networks:
+      - app-net
+    depends_on:
+      - db
+
+# Custom bridge network
+networks:
+  app-net:
+    driver: bridge
+
+# Persistent volume for PostgreSQL data
+volumes:
+  postgres_data:
