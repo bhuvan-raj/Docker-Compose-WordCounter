@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Count Results</title>
+    <style>
+        body {
+            background: linear-gradient(135deg,#d5bfff,#baffc9);
+            font-family: Arial;
+            padding: 50px;
+        }
+        table {
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            font-size: 18px;
+            border-bottom: 1px solid #ccc;
+        }
+        th {
+            background: #6a5acd;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Word Count Results</h1>
+    <table>
+        <tr>
+            <th>Text</th>
+            <th>Word Count</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

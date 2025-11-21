@@ -1,0 +1,52 @@
+version: "3.9"
+
+networks:
+  wc-net:
+    driver: bridge
+
+volumes:
+  dbdata:
+
+services:
+  input-frontend:
+    build: ./input-frontend
+    ports:
+      - "5000:5000"
+    networks:
+      - wc-net
+    depends_on:
+      - redis
+
+  results-frontend:
+    build: ./results-frontend
+    ports:
+      - "5001:5001"
+    networks:
+      - wc-net
+    depends_on:
+      - db
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - wc-net
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: wc_user
+      POSTGRES_PASSWORD: wc_pass
+      POSTGRES_DB: wordcounts
+    networks:
+      - wc-net
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  worker:
+    build: ./worker
+    networks:
+      - wc-net
+    depends_on:
+      - redis
+      - db
